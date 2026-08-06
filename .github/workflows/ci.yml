@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup nodejs 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code format
+        run: npm run format:check
+
+      - name: Build
+        run: npm run build
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.runs-on }}
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup nodejs 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm run test
+
+  test-run:
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.runs-on }}
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update telemetry application (linux)
+        if: runner.os == 'Linux'
+        run: |
+          sed -i "s/const application\s*=\s*'replacetokens-action'/const application = 'replacetokens-action-dev'/" $GITHUB_WORKSPACE/dist/index.js
+
+      - name: Update telemetry application (macos)
+        if: runner.os == 'macOS'
+        run: |
+          sed -i '' -e "s/const application[[:space:]]*=[[:space:]]*'replacetokens-action'/const application = 'replacetokens-action-dev'/" $GITHUB_WORKSPACE/dist/index.js
+
+      - name: Update telemetry application (windows)
+        if: runner.os == 'Windows'
+        run: |
+          $p = "$env:GITHUB_WORKSPACE\dist\index.js"
+          (get-content $p -raw) -replace "const application\s*=\s*'replacetokens-action'", "const application = 'replacetokens-action-dev'" | set-content $p
+
+      - name: Run local action
+        uses: ./
+        id: replace-tokens
+        with:
+          sources: |
+            **/*.json;!**/*.DEV.json;!**/vars.json => _tmp/*.json
+            **/*.xml;!**.dev.xml => _tmp/*.xml
+            **/*.YML;!**/*vars.yml => _tmp/*.yml
+          variables: >
+            [
+              ${{ toJSON(vars) }},
+              ${{ toJSON(secrets) }},
+              { "var2": "#{INLINE}#value2", "inline": "inline_" },
+              ${{ toJSON(format('@{0}/tests/data/vars.jsonc', github.workspace)) }},
+              "@**/*.(JSON|yml);!**/settings*",
+              "$ENV_VARS"
+            ]
+          root: ${{ github.workspace }}/tests
+          log-level: debug
+          recursive: true
+          transforms: true
+          case-insensitive-paths: true
+          include-dot-paths: true
+        env:
+          ENV_VARS: '{ "var4": "env_value4" }'
+
+      - name: Check action outputs
+        run: |
+          echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"
+          echo "files     : ${{ steps.replace-tokens.outputs.files }}"
+          echo "replaced  : ${{ steps.replace-tokens.outputs.replaced }}"
+          echo "tokens    : ${{ steps.replace-tokens.outputs.tokens }}"
+          echo "transforms: ${{ steps.replace-tokens.outputs.transforms }}"
