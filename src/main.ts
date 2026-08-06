@@ -5,15 +5,15 @@ import stripJsonComments from './strip-json-comments';
 import { TelemetryClient } from './telemetry';
 import { SpanStatusCode } from '@opentelemetry/api';
 import fs from 'fs';
-import axios, {isAxiosError} from 'axios';
+import axios, { isAxiosError } from 'axios';
 
 async function validateSubscription() {
-  const eventPath = process.env.GITHUB_EVENT_PATH
-  let repoPrivate: boolean | undefined
+  const eventPath = process.env.GITHUB_EVENT_PATH;
+  let repoPrivate: boolean | undefined;
 
   if (eventPath && fs.existsSync(eventPath)) {
-    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8'))
-    repoPrivate = eventData?.repository?.private
+    const eventData = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+    repoPrivate = eventData?.repository?.private;
   }
 
   const upstream = 'qetza/replacetokens-action';
@@ -35,7 +35,8 @@ async function validateSubscription() {
   try {
     await axios.post(
       `https://agent.api.stepsecurity.io/v1/github/${process.env.GITHUB_REPOSITORY}/actions/maintained-actions-subscription`,
-      body, { timeout: 3000 }
+      body,
+      { timeout: 3000 }
     );
   } catch (error) {
     if (isAxiosError(error) && error.response?.status === 403) {
