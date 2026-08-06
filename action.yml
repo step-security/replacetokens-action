@@ -1,6 +1,6 @@
 name: 'ReplaceTokens'
 description: 'Replace tokens in text files with variables and/or secrets.'
-author: 'Guillaume ROUCHON'
+author: 'step-security'
 branding:
   icon: 'repeat'
   color: 'purple'

@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "An action to replace tokens with variables and/or secrets.",
   "private": true,
-  "author": "Guillaume ROUCHON",
+  "author": "step-security",
   "license": "MIT",
   "keywords": [
     "actions",
@@ -12,13 +12,13 @@
     "variables",
     "substitution"
   ],
-  "homepage": "https://github.com/qetza/replacetokens-action#readme",
+  "homepage": "https://github.com/step-security/replacetokens-action#readme",
   "bugs": {
-    "url": "https://github.com/qetza/replacetokens-action/issues"
+    "url": "https://github.com/step-security/replacetokens-action/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/qetza/replacetokens-action"
+    "url": "git+https://github.com/step-security/replacetokens-action.git"
   },
   "exports": {
     ".": "./dist/index.js"
@@ -38,7 +38,7 @@
     "@opentelemetry/api": "1.8.0",
     "@opentelemetry/sdk-trace-base": "1.22.0",
     "@qetza/replacetokens": "1.9.0",
-    "axios": "1.14.0"
+    "axios": "1.19.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

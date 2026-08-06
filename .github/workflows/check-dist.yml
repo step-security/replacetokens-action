@@ -4,13 +4,11 @@ on:
   pull_request:
     branches:
       - main
-      - releases/*
     paths-ignore:
       - '**.md'
   push:
     branches:
       - main
-      - releases/*
     paths-ignore:
       - '**.md'
   workflow_dispatch:
@@ -21,10 +19,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup nodejs 24.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24.x
 
@@ -42,10 +40,3 @@ jobs:
             git diff
             exit 1
           fi
-
-      - name: Upload expected dist/
-        uses: actions/upload-artifact@v4
-        if: ${{ failure() && steps.diff.conclusion == 'failure' }}
-        with:
-          name: dist
-          path: dist/

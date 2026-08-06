@@ -1,7 +1,7 @@
 [![StepSecurity Maintained Action](https://raw.githubusercontent.com/step-security/maintained-actions-assets/main/assets/maintained-action-banner.png)](https://docs.stepsecurity.io/actions/stepsecurity-maintained-actions)
 
 # ReplaceTokens
-[![CI](https://github.com/step-security/replacetokens-action/actions/workflows/ci.yml/badge.svg)](https://github.com/step-security/replacetokens-action/actions/workflows/ci.yml) [![mit license](https://img.shields.io/badge/license-MIT-green)](https://github.com/step-security/replacetokens-action/blob/main/LICENSE) [![donate](https://img.shields.io/badge/donate-paypal-blue)](https://www.paypal.com/donate/?hosted_button_id=CCEAVYA8DUFD8)
+[![CI](https://github.com/step-security/replacetokens-action/actions/workflows/ci.yml/badge.svg)](https://github.com/step-security/replacetokens-action/actions/workflows/ci.yml) [![mit license](https://img.shields.io/badge/license-MIT-green)](https://github.com/step-security/replacetokens-action/blob/main/LICENSE)
 
 This GitHub Action replaces tokens in text files with variables and/or secrets.
 
@@ -11,7 +11,7 @@ Please refer to the [release page](https://github.com/step-security/replacetoken
 ## Usage
 ### Inputs
 ```yaml
-- uses: step-security/replacetokens-action@v1
+- uses: step-security/replacetokens-action@v2
   with:
     # A multiline list of files to replace tokens in.
     # Each line supports:
@@ -239,7 +239,7 @@ Please refer to the [release page](https://github.com/step-security/replacetoken
 ## Examples
 ### Multiple sources
 ```yaml
-- uses: step-security/replacetokens-action@v1
+- uses: step-security/replacetokens-action@v2
   with:
     sources: |
       **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
@@ -249,7 +249,7 @@ Please refer to the [release page](https://github.com/step-security/replacetoken
 
 ### Multiple variables
 ```yaml
-- uses: step-security/replacetokens-action@v1
+- uses: step-security/replacetokens-action@v2
   with:
     sources: '**/*.yml'
     variables: >
@@ -269,7 +269,7 @@ Please refer to the [release page](https://github.com/step-security/replacetoken
 ### Access outputs
 ```yaml
 steps:
-- uses: step-security/replacetokens-action@v1
+- uses: step-security/replacetokens-action@v2
   id: replace-tokens
   with:
     sources: '**/*.yml'
