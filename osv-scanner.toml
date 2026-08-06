@@ -1,0 +1,3 @@
+[[IgnoredVulns]]
+id = "GHSA-8988-4f7v-96qf"
+reason = "@opentelemetry/core is used only for ExportResult, ExportResultCode, and hrTimeToMilliseconds. W3CBaggagePropagator.extract() is never called, no propagators are registered, and this GitHub Action receives no inbound HTTP requests — the attack vector does not exist."
