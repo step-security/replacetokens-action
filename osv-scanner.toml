@@ -1,3 +1,11 @@
 [[IgnoredVulns]]
 id = "GHSA-8988-4f7v-96qf"
 reason = "@opentelemetry/core is used only for ExportResult, ExportResultCode, and hrTimeToMilliseconds. W3CBaggagePropagator.extract() is never called, no propagators are registered, and this GitHub Action receives no inbound HTTP requests — the attack vector does not exist."
+
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm"
+reason = "No fixed version available. braces is a transitive dependency not directly used by this action."
+
+[[IgnoredVulns]]
+id = "GHSA-hp3w-g68c-fv3c"
+reason = "sprintf-js is a dev dependency only, not present in production runtime."

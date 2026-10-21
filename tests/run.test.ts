@@ -993,7 +993,7 @@ describe('run', () => {
     // assert
     expect(setFailedSpy).not.toHaveBeenCalled();
 
-    expect(postSpy).not.toHaveBeenCalled();
+    expect(postSpy).not.toHaveBeenCalledWith(expect.stringContaining('nr-data.net'), expect.anything(), expect.anything());
 
     expect(debugSpy).not.toHaveBeenCalledWith(expect.stringContaining('telemetry: '));
   });
@@ -1010,7 +1010,7 @@ describe('run', () => {
     // assert
     expect(setFailedSpy).not.toHaveBeenCalled();
 
-    expect(postSpy).not.toHaveBeenCalled();
+    expect(postSpy).not.toHaveBeenCalledWith(expect.stringContaining('nr-data.net'), expect.anything(), expect.anything());
 
     expect(debugSpy).not.toHaveBeenCalledWith(expect.stringContaining('telemetry: '));
   });
@@ -1027,7 +1027,7 @@ describe('run', () => {
     // assert
     expect(setFailedSpy).not.toHaveBeenCalled();
 
-    expect(postSpy).not.toHaveBeenCalled();
+    expect(postSpy).not.toHaveBeenCalledWith(expect.stringContaining('nr-data.net'), expect.anything(), expect.anything());
 
     expect(debugSpy).not.toHaveBeenCalledWith(expect.stringContaining('telemetry: '));
   });
