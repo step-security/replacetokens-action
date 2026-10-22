@@ -2,7 +2,7 @@ import { ExportResult, ExportResultCode, hrTimeToMilliseconds } from '@opentelem
 import { SpanStatusCode, Tracer, Span } from '@opentelemetry/api';
 import { BasicTracerProvider, SimpleSpanProcessor, SpanExporter, ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import * as crypto from 'crypto';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const application = 'replacetokens-action';
 const version = '1.0.0';
@@ -64,7 +64,7 @@ class NewRelicExporter implements SpanExporter {
 
   private async _send(data: any[]): Promise<ExportResult> {
     try {
-      const options: axios.AxiosRequestConfig<any[]> = {
+      const options: AxiosRequestConfig<any[]> = {
         headers: {
           'Api-Key': key,
           'Content-Type': 'application/json'
